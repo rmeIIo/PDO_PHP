@@ -6,7 +6,7 @@
     try {
         $conexao = new PDO($dsn, $usuario, $senha);
 
-        $query = '
+        /*$query = '
             create table if not exists tb_usuarios(
                 id int not null primary key auto_increment,
                 nome varchar(50) not null,
@@ -16,12 +16,20 @@
         ';
 
         $retorno = $conexao->exec($query);
-        echo $retorno;
+        echo $retorno; */
 
         $query = '
-            delete from tb_usuarios';
-        $retorno = $conexao->exec($query);
-        echo $retorno;
+            select * from tb_usuarios
+        ';
+
+        $stmt = $conexao->query($query);
+        $lista = $stmt->fetchAll();
+
+        echo '<pre>';
+        print_r($lista);
+        echo '</pre>';
+
+        echo $lista[2][2];
 
     } catch(PDOException $e) {
         // Caso ocorra algum erro na conexão (registrar erro)
