@@ -23,13 +23,13 @@
         ';
 
         $stmt = $conexao->query($query);
-        $lista = $stmt->fetchAll();
+        $lista = $stmt->fetchAll(PDO::FETCH_OBJ); // FETCH_ASSOC, FETCH_NUM, FETCH_BOTH
 
         echo '<pre>';
         print_r($lista);
         echo '</pre>';
 
-        echo $lista[2][2];
+        echo $lista[1]->nome;
 
     } catch(PDOException $e) {
         // Caso ocorra algum erro na conexão (registrar erro)
