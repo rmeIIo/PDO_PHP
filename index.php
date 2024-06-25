@@ -7,18 +7,24 @@ if (!empty($_POST['usuario']) && !empty($_POST['senha'])) {
     try {
         $conexao = new PDO($dsn, $usuario, $senha);
 
-        $query = "select * from tb_usuarios where ";
-        $query .= " email = '{$_POST['usuario']}' ";
-        $query .= " and senha = '{$_POST['senha']}' ";
+        $query = "
+            select * from tb_usuarios where
+        ";
+        $query .= " email = :usuario ";
+        $query .= " and senha = :senha ";
 
-        echo $query;
-        //$stmt = $conexao->query($query);
-        //$usuario = $stmt->fetch();
-        echo '<hr>';
+        $stmt = $conexao -> prepare($query);
+
+        $stmt -> bindValue(':usuario', $_POST['usuario']);
+        $stmt -> bindValue(':senha', $_POST['senha'], PDO::PARAM_INT);
+
+        $stmt -> execute();
+        $usuario = $stmt -> fetch();
 
         echo '<pre>';
-        //print_r($usuario);
+        print_r($usuario);
         echo '</pre>';
+
     } catch (PDOException $e) {
         // Caso ocorra algum erro na conexão (registrar erro)
         echo 'Erro: ' . $e->getCode() . ' Mensagem: ' . $e->getMessage();
