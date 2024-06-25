@@ -19,17 +19,26 @@
         echo $retorno; */
 
         $query = '
-            select * from tb_usuarios order by nome desc limit 1
+            select * from tb_usuarios
         ';
 
-        $stmt = $conexao->query($query);
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC); // FETCH_ASSOC, FETCH_NUM, FETCH_BOTH
+        //$stmt = $conexao->query($query);
+        //$lista_usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC); // FETCH_ASSOC, FETCH_NUM, FETCH_BOTH
 
-        echo '<pre>';
-        print_r($usuario);
-        echo '</pre>';
+        //echo '<pre>';
+        //print_r($lista);
+        //echo '</pre>';
 
-        echo $usuario["nome"];
+        /*
+        foreach($lista_usuarios as $key => $value) {
+            echo $value['nome'];
+            echo '<hr>';
+        } */
+
+        foreach($conexao->query($query) as $key => $value) {
+            print_r($value['nome']);
+            echo '<hr>';
+        }
 
     } catch(PDOException $e) {
         // Caso ocorra algum erro na conexão (registrar erro)
