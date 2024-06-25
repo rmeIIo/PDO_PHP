@@ -1,4 +1,5 @@
 <?php
+if (!empty($_POST['usuario']) && !empty($_POST['senha'])) {
     // Criando uma conexão entre o PHP e o MySql
     $dsn = 'mysql:host=localhost;dbname=php_com_pdo';
     $usuario = 'root';
@@ -6,41 +7,42 @@
     try {
         $conexao = new PDO($dsn, $usuario, $senha);
 
-        /*$query = '
-            create table if not exists tb_usuarios(
-                id int not null primary key auto_increment,
-                nome varchar(50) not null,
-                email varchar(100) not null,
-                senha varchar(32) not null
-            )
-        ';
+        $query = "select * from tb_usuarios where ";
+        $query .= " email = '{$_POST['usuario']}' ";
+        $query .= " and senha = '{$_POST['senha']}' ";
 
-        $retorno = $conexao->exec($query);
-        echo $retorno; */
-
-        $query = '
-            select * from tb_usuarios
-        ';
-
+        echo $query;
         //$stmt = $conexao->query($query);
-        //$lista_usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC); // FETCH_ASSOC, FETCH_NUM, FETCH_BOTH
+        //$usuario = $stmt->fetch();
+        echo '<hr>';
 
-        //echo '<pre>';
-        //print_r($lista);
-        //echo '</pre>';
-
-        /*
-        foreach($lista_usuarios as $key => $value) {
-            echo $value['nome'];
-            echo '<hr>';
-        } */
-
-        foreach($conexao->query($query) as $key => $value) {
-            print_r($value['nome']);
-            echo '<hr>';
-        }
-
-    } catch(PDOException $e) {
+        echo '<pre>';
+        //print_r($usuario);
+        echo '</pre>';
+    } catch (PDOException $e) {
         // Caso ocorra algum erro na conexão (registrar erro)
-        echo 'Erro: ' . $e->getCode() .' Mensagem: '. $e->getMessage();
+        echo 'Erro: ' . $e->getCode() . ' Mensagem: ' . $e->getMessage();
     }
+}
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <form method="post" action="./index.php">
+        <input type="text" placeholder="Usuario" name="usuario">
+        <input type="password" name="senha" placeholder="senha">
+        <button type="submit">Entrar</button>
+    </form>
+</body>
+
+</html>
